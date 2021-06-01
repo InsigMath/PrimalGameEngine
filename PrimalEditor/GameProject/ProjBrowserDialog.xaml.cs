@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +21,18 @@ namespace PrimalEditor.GameProject
         public ProjBrowserDialog()
         {
             InitializeComponent();
+            Loaded += OnProjBrowserDialogLoaded;
+        }
+
+        private void OnProjBrowserDialogLoaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= OnProjBrowserDialogLoaded;
+            if (!OpenProject.Projects.Any())
+            {
+                openProjectButton.IsEnabled = false;
+                openProjectView.Visibility = Visibility.Hidden;
+                OnToggleButton_Click(createProjectButton, new RoutedEventArgs());
+            }
         }
 
         private void OnToggleButton_Click(object sender, RoutedEventArgs e)
